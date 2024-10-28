@@ -1,0 +1,45 @@
+CREATE DATABASE booklist;
+\c booklist
+
+CREATE TABLE languages (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+INSERT INTO languages (name) VALUES
+    ('English'),
+    ('Russian'),
+    ('Greek'),
+    ('French'),
+    ('German'),
+    ('Italian'),
+    ('Chinese'),
+    ('Japanese'),
+    ('Turkish'),
+    ('Spanish');
+
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    language_id INT NOT NULL,
+    FOREIGN KEY (language_id) REFERENCES languages(id)
+);
+INSERT INTO books (title, author, language_id) VALUES
+    ('Pride and Prejudice', 'Jane Austen', 1),  -- English
+    ('1984', 'George Orwell', 1),                -- English
+    ('Moby Dick', 'Herman Melville', 1),         -- English
+    ('War and Peace', 'Leo Tolstoy', 2),        -- Russian
+    ('The Great Gatsby', 'F. Scott Fitzgerald', 1),  -- English
+    ('To Kill a Mockingbird', 'Harper Lee', 1), -- English
+    ('The Catcher in the Rye', 'J.D. Salinger', 1),  -- English
+    ('The Odyssey', 'Homer', 3),                  -- Greek
+    ('Crime and Punishment', 'Fyodor Dostoevsky', 2), -- Russian
+    ('The Picture of Dorian Gray', 'Oscar Wilde', 1);  -- English
+
+-- SQL QUERIES:
+SELECT * FROM languages;
+
+SELECT b.id, b.title, b.author, b.language_id, l.name AS language
+FROM books b
+JOIN languages l ON b.language_id = l.id;
